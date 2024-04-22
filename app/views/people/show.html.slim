@@ -1,0 +1,30 @@
+.dashboard-wrapper
+  aside.side-bar-area
+    = render 'shared/sidebar'
+  .main-area
+    .top-bar
+      h1.top-bar-title 
+        = "#{@user.name} Expenses Details"
+      .top-bar-actions
+        = link_to "Dashboard", root_path, class: 'btn btn-secondary'
+
+    .expenses-list
+      - @expenses.each do |expense|
+        .expense-item
+          .item-lhs
+            p = expense.expense_date.strftime("%b %d")
+            p = expense.title
+          .item-rhs
+            - if expense.paid_by == @user
+              .you-details
+                p you paid
+                p = number_to_currency(expense.expense_items.sum(:amount))
+              - expense.unique_participants.each do |user|
+                - if user != @user
+                    .you-details
+                      p = "you lent #{user.name}"
+                      p = number_to_currency(expense.expense_item_participants.where(user_id: user.id).sum(:amount))
+            - else
+              .you-details
+                p = "you owe #{expense.paid_by.name}"
+                P = number_to_currency(expense.expense_item_participants.where(user_id: @user.id).sum(:amount))
