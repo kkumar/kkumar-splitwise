@@ -5,7 +5,11 @@ class ExpenseItem < ApplicationRecord
   has_many :expense_item_participants
   has_many :users, through: :expense_item_participants
   accepts_nested_attributes_for :expense_item_participants, reject_if: :all_blank, allow_destroy: true
-
+  
+  validates :title, presence: true
+  validates :amount, numericality: { greater_than: 0 }
+  validates :equally_shared, inclusion: { in: [true, false] }
+  
   private
 
   def calculate_equal_share

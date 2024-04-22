@@ -9,6 +9,11 @@ class Expense < ApplicationRecord
     (attributes['title'] == 'Tax' || attributes['title'] == 'Tip') && attributes['amount'].to_f.zero?
   }, allow_destroy: true
 
+  validates :title, presence: true
+  validates :total_amount, presence: true
+  validates :paid_by_id, presence: true
+  validates :expense_date, presence: true
+
   def unique_participants
     User.joins(expense_item_participants: :expense_item)
         .where(expense_items: { expense_id: id })
