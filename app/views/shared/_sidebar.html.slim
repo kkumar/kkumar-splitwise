@@ -1,0 +1,4 @@
+.friends-list
+  p.friends-list-header FRIENDS
+  - current_user.connections.each do |connection|
+    = link_to connection.name, "/people/#{connection.id}", class: 'friend-name'

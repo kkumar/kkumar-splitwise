@@ -13,7 +13,11 @@ window.$ = jQuery
 window.jQuery = jQuery
 
 import 'bootstrap/dist/js/bootstrap'
+import "@nathanvda/cocoon"
 require("jgrowl")
+
+import "./expense_form"
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
