@@ -1,7 +1,12 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# test/fixtures/expense_items.yml
+sandwich:
+  expense: lunch
+  title: "Club Sandwich"
+  amount: 50.00
+  equally_shared: true
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-
+coffee:
+  expense: coffee
+  title: "Espresso"
+  amount: 25
+  equally_shared: true

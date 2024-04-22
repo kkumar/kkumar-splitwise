@@ -1,7 +1,20 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# test/fixtures/expense_item_participants.yml
+participant_1:
+  expense_item: sandwich
+  user: one
+  amount: 25.00
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
+participant_2:
+  expense_item: sandwich
+  user: two
+  amount: 25.00
 
+participant_3:
+  expense_item: coffee
+  user: one
+  amount: 15.00
+
+participant_4:
+  expense_item: coffee
+  user: two
+  amount: 10.00  

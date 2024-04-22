@@ -1,6 +1,14 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# test/fixtures/expenses.yml
+lunch:
+  title: "Business Lunch"
+  desc: "Lunch with clients"
+  total_amount: 120.50
+  paid_by: one
+  expense_date: 2024-04-21
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
+coffee:
+  title: "Coffee Meeting"
+  desc: "Discussing project"
+  total_amount: 15.75
+  paid_by: two
+  expense_date: 2024-04-22

@@ -1,7 +1,7 @@
 class Expense < ApplicationRecord
   after_initialize :set_default_expense_date, if: :new_record?
   
-  belongs_to :paid_by, class_name: 'User'
+  belongs_to :paid_by, class_name: 'User', foreign_key: 'paid_by_id'
   has_many :expense_items
   has_many :expense_item_participants, through: :expense_items
   accepts_nested_attributes_for :expense_items, reject_if: lambda { |attributes|
