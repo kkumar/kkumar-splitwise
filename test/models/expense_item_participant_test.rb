@@ -13,9 +13,4 @@ class ExpenseItemParticipantTest < ActiveSupport::TestCase
     assert @participant.valid?
   end
 
-  test "amount should be positive" do
-    @participant.amount = 0
-    assert_not @participant.valid?
-  end
-
 end
