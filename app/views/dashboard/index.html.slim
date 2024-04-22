@@ -1,0 +1,46 @@
+.dashboard-wrapper
+  aside.side-bar-area
+    = render 'shared/sidebar'
+  .main-area
+    .top-bar
+      h1.top-bar-title Dashboard
+      .top-bar-actions
+        button.btn.btn-primary type="button" data-bs-toggle="modal" data-bs-target="#expenseModal"  Add an expense
+        button.btn.btn-secondary type="button"  Settle up
+    .dashboard-balances
+      .balances-bar
+        .balance-block
+          p total balance
+          p = number_to_currency(@dashboard_data[:total_balance])
+        .balance-block
+          p you owe
+          p = number_to_currency(@dashboard_data[:total_you_owe])
+        .balance-block
+          p you are owed
+          p = number_to_currency(@dashboard_data[:total_you_are_owed])
+      .dashboard-detail
+        .detail-block
+          h2.detail-title you owe
+          - if @dashboard_data[:friends_you_owe].present?
+            - @dashboard_data[:friends_you_owe].each do |friend_id, amount|
+              - friend = User.find(friend_id)  # Consider eager loading these or caching if performance is impacted
+              .user-detail
+                img.user-img alt="Profile image of #{friend.name}" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                .user-info
+                  p = friend.name
+                  p = "you owe #{number_to_currency(amount)}"
+          -else
+            p = "You own nothing!"
+        .detail-block
+          h2.detail-title you are owed
+          - if @dashboard_data[:friends_who_owe_you].present?
+            - @dashboard_data[:friends_who_owe_you].each do |friend_id, amount|
+              - friend = User.find(friend_id)
+              .user-detail
+                img.user-img alt="Profile image of #{friend.name}" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                .user-info
+                  p = friend.name
+                  p = "owes you #{number_to_currency(amount)}"
+          -else
+            p = "You are not owed anything"
+= render 'expenses/expense_modal'     

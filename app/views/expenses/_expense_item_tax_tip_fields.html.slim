@@ -1,0 +1,18 @@
+-# Add hidden fields for tax and tip so that they are added as part of the expense item so its better to share the expenses
+= form.fields_for :expense_items, ExpenseItem.new(title: 'Tax', amount: 0, equally_shared: true), child_index: '11111' do |tax_form|
+  = tax_form.hidden_field :title, value: 'Tax'
+  = tax_form.hidden_field :amount, id: 'hidden_tax_amount'
+  = tax_form.hidden_field :equally_shared, value: true
+  - current_user.peers.each do |connection|
+      = tax_form.fields_for :expense_item_participants, ExpenseItemParticipant.new(user_id: connection.id), child_index: connection.id do |p_form|
+        = p_form.hidden_field :user_id, value: connection.id
+        = p_form.hidden_field :amount
+
+= form.fields_for :expense_items, ExpenseItem.new(title: 'Tip', amount: 0, equally_shared: true), child_index: '22222' do |tip_form|
+  = tip_form.hidden_field :title, value: 'Tip'
+  = tip_form.hidden_field :amount, id: 'hidden_tip_amount'
+  = tip_form.hidden_field :equally_shared, value: true
+  - current_user.peers.each do |connection|
+      = tip_form.fields_for :expense_item_participants, ExpenseItemParticipant.new(user_id: connection.id), child_index: connection.id do |p_form|
+        = p_form.hidden_field :user_id, value: connection.id
+        = p_form.hidden_field :amount

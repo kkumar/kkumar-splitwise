@@ -1,0 +1,95 @@
+#expenseModal.modal.fade aria-hidden="true" aria-labelledby="expenseModalLabel" tabindex="-1" 
+  .modal-dialog.mw-100.w-75
+    .modal-content
+      .modal-header
+        h5#expenseModalLabel.modal-title Add an expense
+        button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button"
+      = form_with model: @expense, id: 'new_expense_form', local: true do |form|
+        .modal-body
+          .col-md-12
+            .row
+              .form-group.row.pb-3
+                label.col-sm-2.col-form-label for="item_title" 
+                  = form.label :title, 'Expense Title'
+                .col-sm-4
+                  = form.text_field :title, class: 'form-control'
+              .form-group.row.pb-3
+                = form.label :paid_by_id, 'Paid by', class: 'col-sm-2 col-form-label'
+                .col-sm-4
+                  = form.collection_select :paid_by_id, current_user.peers, :id, :name, { include_blank: 'Select who paid' }, { class: 'form-control' }
+              .form-group.row.pb-3
+                label.col-sm-2.col-form-label for="expense_date" 
+                  = form.label :expense_date, 'Expense Date'
+                .col-sm-4
+                  = form.date_field :expense_date, class: 'form-control'
+                  = form.hidden_field :total_amount, id: "total_amount"
+            .row.pb-5
+              p Itemized expense
+              #items
+                .form-group.row.pb-3
+                  .col-md-12
+                    .row
+                      .col-md-6
+                        strong Item
+                      .col-md
+                        | Amount
+                      - current_user.peers.each do |connection|
+                        .col-md
+                          = connection.name
+                      .col-md
+                        | Equal
+                      .col-md
+                        
+                = form.fields_for :expense_items do |ei_form|
+                  = render 'expenses/expense_item_fields', f: ei_form
+                = render 'expenses/expense_item_tax_tip_fields', form: form
+              .links
+                = link_to_add_association 'Add New Item', form, :expense_items, partial: 'expenses/expense_item_fields'
+            .row.pb-3
+              .col-md-6
+                strong Subtotal
+              .col-md
+                span#subtotal-value 0.00
+              - current_user.peers.pluck(:id).each do |cid|
+                .col-md
+                  span id="subtotal-user-#{cid}" 0.00
+              .col-md
+              .col-md
+            .row.pb-3
+              .col-md-6
+                strong + Tax
+              .col-md
+                input.form-control type="number" id="tax_amount" placeholder="0.00"
+              - current_user.peers.pluck(:id).each do |cid|
+                .col-md
+                  input.form-control type="number" id="tax-user-#{cid}" disabled=true placeholder="0.00"
+              .col-md
+              .col-md
+            .row.pb-3
+              .col-md-6
+                strong + Tip
+              .col-md
+                input.form-control type="number" id="tip_amount" placeholder="0.00"
+              - current_user.peers.pluck(:id).each do |cid|
+                .col-md
+                  input.form-control type="number" id="tip-user-#{cid}" disabled=true placeholder="0.00"
+              .col-md
+              .col-md
+            .row.pb-3 
+              .col-md-12 
+                <hr/>
+            .row.pb-3
+              .col-md-6
+                strong Grand total
+              .col-md
+                span#grand-total-value 0.00
+              - current_user.peers.pluck(:id).each do |cid|
+                .col-md
+                  span id="grand-total-user-#{cid}" 0.00
+              .col-md
+              .col-md
+
+        .modal-footer
+          button.btn.btn-secondary data-bs-dismiss="modal" type="button"  Close
+          = form.submit 'Save changes', class: 'btn btn-primary'
+           

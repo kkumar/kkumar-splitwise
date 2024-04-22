@@ -1,0 +1,17 @@
+.nested-fields.col-md-12
+  .row.item-row.pb-3
+    .col-md-6
+      = f.text_field :title, class: 'form-control item-title'
+
+    .col-md
+      = f.number_field :amount, class: 'form-control item-amount', step: '0.01'
+   
+    - current_user.peers.each do |connection|
+      .col-md.user-amounts
+        = f.fields_for :expense_item_participants, ExpenseItemParticipant.new(user_id: connection.id), child_index: connection.id do |p_form|
+          = p_form.hidden_field :user_id, value: connection.id
+          = p_form.number_field :amount, class: 'form-control participant-amount', placeholder: 0.00, disabled: true, 'data-user-id': connection.id
+    .col-md
+      = f.check_box :equally_shared, { class: 'form-check-input equal-share-checkbox' }
+    .col-md
+      = link_to_remove_association "X", f, class: 'btn btn-danger'

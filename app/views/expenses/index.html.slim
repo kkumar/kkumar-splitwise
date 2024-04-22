@@ -1,0 +1,19 @@
+h1 Expenses
+
+- @expenses.each do |expense|
+  h2= expense.title
+  table.table
+    thead
+      tr
+        th Item
+        th Amount
+        th Participants
+    tbody
+      - expense.expense_items.each do |item|
+        tr
+          td= item.title
+          td= number_to_currency(item.amount)
+          td
+            ul
+              - item.expense_item_participants.each do |participant|
+                li= "#{participant.user.name}: #{number_to_currency(participant.amount)}"
